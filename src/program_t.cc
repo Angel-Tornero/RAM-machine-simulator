@@ -72,12 +72,14 @@ void program_t::readInstructions(std::string strFile) {
   std::string tag;
   std::string opWord;
   std::string operand;
-  char operandType;
+  std::string operandType;
 
   while (token != NULL && !error) {
     validInstruction = false;
     newTag = false;
     opWord = "";
+    operand = "";
+    operandType = "";
 
     strLine = token;
 
