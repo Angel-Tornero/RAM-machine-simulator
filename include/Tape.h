@@ -4,7 +4,7 @@
 #ifndef _TAPE_
 #define _TAPE_
 
-class tape_t {
+class Tape {
 
   protected:
     std::vector<int> values_;

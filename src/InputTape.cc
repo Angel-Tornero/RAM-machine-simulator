@@ -1,13 +1,13 @@
-#include "../include/input_tape_t.h"
+#include "../include/InputTape.h"
 #include <fstream>
 #include <iostream>
 
-input_tape_t::input_tape_t(std::string fileName) {
+InputTape::InputTape(std::string fileName) {
   
   load(fileName);
 }
 
-void input_tape_t::load(std::string fileName) {
+void InputTape::load(std::string fileName) {
   fileName_ = fileName;
   std::fstream inFile;
   int value;
@@ -26,7 +26,7 @@ void input_tape_t::load(std::string fileName) {
   inFile.close();
 }
 
-void input_tape_t::show() {
+void InputTape::show() {
   for (int i = 0; i < values_.size(); i++) {
     std::cout << values_[i]<< '\n';
   }

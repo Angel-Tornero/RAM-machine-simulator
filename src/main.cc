@@ -1,4 +1,4 @@
-#include "../include/ram_t.h"
+#include "../include/RAMachine.h"
 #include <string>
 
 int main(int argv, char* argc[]) {
@@ -8,11 +8,10 @@ int main(int argv, char* argc[]) {
   std::string outputTape(argc[3]);
   int debug = atoi(argc[4]);
 
-  program_t program(ramProgram);
-  input_tape_t tape(inputTape);
+  Program program(ramProgram);
+  InputTape tape(inputTape);
 
   program.showInstructions();
-  tape.show();
 
-  //ram_t ramMachine(ramProgram, inputTape, outputTape);
+  //RAMachine ramMachine(ramProgram, inputTape, outputTape);
 }

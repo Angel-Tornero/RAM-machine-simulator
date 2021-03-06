@@ -1,6 +1,6 @@
 #include <vector>
 
-class memory_t {
+class Memory {
   private:
     std::vector<int> register_;
 
