@@ -5,6 +5,7 @@
 InputTape::InputTape(std::string fileName) {
   
   load(fileName);
+  index_ = 0;
 }
 
 void InputTape::load(std::string fileName) {
@@ -30,4 +31,9 @@ void InputTape::show() {
   for (int i = 0; i < values_.size(); i++) {
     std::cout << values_[i]<< '\n';
   }
+}
+
+int InputTape::readValue() {
+  return values_[index_++];
+
 }

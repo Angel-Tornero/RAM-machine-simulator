@@ -1,6 +1,7 @@
 #include "../../include/Instrucciones/InstructionLOAD.h"
+#include "../../include/RAMachine.h"
 
-InstructionLOAD::InstructionLOAD(int line, std::string tag, std::string operation, char opType, std::string operand) {
+InstructionLOAD::InstructionLOAD(int line, std::string tag, std::string operation, char opType, int operand) {
   line_ = line;
   tag_ = tag;
   operation_ = operation;
@@ -10,4 +11,24 @@ InstructionLOAD::InstructionLOAD(int line, std::string tag, std::string operatio
 
 void InstructionLOAD::show() {
   std::cout << '[' << tag_ << "] at line " << line_ << " <" << operation_ << ' ' << opType_ << ' ' << operand_ << ">\n";
+}
+
+void InstructionLOAD::execute(RAMachine ram) {
+  int value;
+  int position = 0;
+  switch(opType_) {
+    case 'd':
+      value = ram.readMemory(operand_);
+      ram.writeMemory(value, position);
+      break;
+    case '*':
+      position = ram.readMemory(operand_);
+      value = ram.readMemory(position);
+      ram.writeMemory(value, position);
+      break;
+    case '=':
+      value = operand_;
+      ram.writeMemory(value, position);
+      break;
+  }
 }

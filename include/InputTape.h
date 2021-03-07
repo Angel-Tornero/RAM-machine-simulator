@@ -6,5 +6,6 @@ class InputTape: public Tape {
     InputTape(std::string fileName);
     void load(std::string fileName);
     void show();
+    int readValue();
 
 };

@@ -16,6 +16,7 @@
 #include <algorithm>
 #include <sstream>
 #include <regex>
+#include <map>
 
 Program::Program(std::string fileName) {
   load(fileName);
@@ -79,6 +80,7 @@ void Program::readInstructions(std::string strFile) {
   std::string opWord;
   std::string operand;
   char operandType;
+  std::map<std::string, int> tagMap;
 
   while (token != NULL && !error) {
     validInstruction = false;
@@ -90,6 +92,7 @@ void Program::readInstructions(std::string strFile) {
     if (tag != "") {
       currentTag = tag;
       newTag = true;
+      tagMap.insert(std::make_pair(tag, line));
     }
     strFile = token;
     std::istringstream iss(strFile);
@@ -124,7 +127,7 @@ void Program::readInstructions(std::string strFile) {
         opCode = std::distance(jumpOperations.begin(), std::find(jumpOperations.begin(), jumpOperations.end(), opWord));
         iss >> operand;
         validInstruction = true;
-        newInstruction = createJumpInstruction(opCode, line, currentTag, operand);
+        newInstruction = createJumpInstruction(opCode, line, currentTag, operand, tagMap[operand]);
     } else if (opWord.find("HALT") != std::string::npos) {
         validInstruction = true;
         newInstruction = new InstructionHALT(line, currentTag, "HALT");
@@ -145,33 +148,38 @@ void Program::showInstructions() {
 }
 
 Instruction* Program::createNormalInstruction(int opCode, int line, std::string tag, char opType, std::string operand) {
+  int numericOperand = stoi(operand);
   switch(opCode) {
     case 0:
-      return new InstructionLOAD(line, tag, "LOAD", opType, operand);
+      return new InstructionLOAD(line, tag, "LOAD", opType, numericOperand);
     case 1:
-      return new InstructionSTORE(line, tag, "STORE", opType, operand);
+      return new InstructionSTORE(line, tag, "STORE", opType, numericOperand);
     case 2:
-      return new InstructionADD(line, tag, "ADD", opType, operand);
+      return new InstructionADD(line, tag, "ADD", opType, numericOperand);
     case 3:
-      return new InstructionSUB(line, tag, "SUB", opType, operand);
+      return new InstructionSUB(line, tag, "SUB", opType, numericOperand);
     case 4:
-      return new InstructionMULT(line, tag, "MULT", opType, operand);
+      return new InstructionMULT(line, tag, "MULT", opType, numericOperand);
     case 5:
-      return new InstructionDIV(line, tag, "DIV", opType, operand);
+      return new InstructionDIV(line, tag, "DIV", opType, numericOperand);
     case 6:
-      return new InstructionREAD(line, tag, "READ", opType, operand);
+      return new InstructionREAD(line, tag, "READ", opType, numericOperand);
     case 7:
-      return new InstructionWRITE(line, tag, "WRITE", opType, operand);
+      return new InstructionWRITE(line, tag, "WRITE", opType, numericOperand);
   }
 }
 
-Instruction* Program::createJumpInstruction(int opCode, int line, std::string tag, std::string operand) {
+Instruction* Program::createJumpInstruction(int opCode, int line, std::string tag, std::string operand_, int tagStartLine) {
   switch(opCode) {
     case 0:
-      return new InstructionJUMP(line, tag, "JUMP", operand);
+      return new InstructionJUMP(line, tag, "JUMP", operand_, tagStartLine);
     case 1:
-      return new InstructionJGTZ(line, tag, "JGTZ", operand);
+      return new InstructionJGTZ(line, tag, "JGTZ", operand_, tagStartLine);
     case 2:
-      return new InstructionJZERO(line, tag, "JZERO", operand);
+      return new InstructionJZERO(line, tag, "JZERO", operand_, tagStartLine);
   }
+}
+
+Instruction* Program::runInstructions() {
+  ;
 }

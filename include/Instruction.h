@@ -4,6 +4,8 @@
 #ifndef _INSTRUCTION_
 #define _INSTRUCTION_
 
+class RAMachine;
+
 class Instruction {
   protected:
     int line_;
@@ -12,6 +14,7 @@ class Instruction {
   
   public:
     Instruction() {}
+    virtual void execute(RAMachine ram)=0;
 
     virtual void show()=0;
 };

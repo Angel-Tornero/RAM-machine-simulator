@@ -3,9 +3,10 @@
 class InstructionLOAD: public Instruction {
   private:
     char opType_;
-    std::string operand_;
+    int operand_;
   public:
-    InstructionLOAD(int line, std::string tag, std::string operation, char opType, std::string operand);
+    InstructionLOAD(int line, std::string tag, std::string operation, char opType, int operand);
 
     void show();
+    void execute(RAMachine ram);
 };
