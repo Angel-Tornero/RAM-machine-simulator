@@ -1,12 +1,11 @@
 #include "../Instruction.h"
+#include "../Tag.h"
 
 class InstructionJZERO: public Instruction {
   private:
-    std::string operand_;
-    int tagStartLine_;
+    Tag* jumpTag_;
   public:
-    InstructionJZERO(int line, std::string tag, std::string operation, std::string operand, int tagStartLine);
-
+    InstructionJZERO(int line, std::string tag, std::string operation, Tag* jumpTag);
     void show();
-    void execute(RAMachine ram);
+    int execute(RAMachine& ram);
 };

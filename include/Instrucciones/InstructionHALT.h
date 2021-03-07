@@ -5,4 +5,5 @@ class InstructionHALT: public Instruction {
     InstructionHALT(int line, std::string tag, std::string operation);
 
     void show();
+    int execute(RAMachine& ram);
 };

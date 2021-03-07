@@ -7,7 +7,7 @@
 
 				load =3
 				store 2
-			
+
 lee:		read 1
 				load 1
 				jzero fin
@@ -34,7 +34,7 @@ carga:	load *2
 				load 2
 				add =1
 				store 2
-			
+
 				jump carga
 
 fin2: 	halt

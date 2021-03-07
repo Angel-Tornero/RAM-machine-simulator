@@ -13,17 +13,18 @@ void InstructionREAD::show() {
   std::cout << '[' << tag_ << "] at line " << line_ << " <" << operation_ << ' ' << opType_ << ' ' << operand_ << ">\n";
 }
 
-void InstructionREAD::execute(RAMachine ram) {
-  int readValue = ram.readFromTape();
+int InstructionREAD::execute(RAMachine& ram) {
+  int readValue = ram.readFromInputTape();
   int position;
   switch(opType_) {
     case 'd':
       position = operand_;
-      ram.writeMemory(readValue, position);
+      ram.writeMemory(position, readValue);
       break;
     case '*':
       position = ram.readMemory(readValue);
-      ram.writeMemory(readValue, position);
+      ram.writeMemory(position, readValue);
       break;
   }
+  return ram.getPc() + 1;
 }

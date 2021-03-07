@@ -11,7 +11,7 @@ int main(int argv, char* argc[]) {
   Program program(ramProgram);
   InputTape tape(inputTape);
 
-  program.showInstructions();
-
-  //RAMachine ramMachine(ramProgram, inputTape, outputTape);
+  RAMachine ramMachine(new Program(ramProgram), new InputTape(inputTape), new OutputTape(outputTape));
+  ramMachine.runProgram();
+  ramMachine.showOutputTape();
 }

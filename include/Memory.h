@@ -8,5 +8,6 @@ class Memory {
     Memory() {}
     void write(int pos, int value);
     int read(int pos);
+    void show();
 
 };

@@ -16,7 +16,7 @@
 #include <algorithm>
 #include <sstream>
 #include <regex>
-#include <map>
+#include <tuple>
 
 Program::Program(std::string fileName) {
   load(fileName);
@@ -34,7 +34,7 @@ std::string fileToString(std::string fileName) {
   }
   while(!inFile.eof()) {
     getline(inFile, aux);
-    if (aux[0] == ';') {
+    if (aux[0] == ';' || aux.size() == 0) {
       continue;
     }
     strFile += aux + "\n";
@@ -63,9 +63,12 @@ std::string getTag(std::string line) {
 }
 
 void Program::readInstructions(std::string strFile) {
+  
   std::transform(strFile.begin(), strFile.end(), strFile.begin(), ::toupper);
   std::vector<std::string> normalOperations = {"LOAD", "STORE", "ADD", "SUB", "MULT", "DIV", "READ", "WRITE"};
   std::vector<std::string> jumpOperations = {"JUMP", "JGTZ", "JZERO"};
+  std::string copyStrFile = strFile;
+  std::vector<Tag*> tagArray = getAllTags(copyStrFile);
   bool error = false;
   bool validInstruction;
   bool newTag;
@@ -80,7 +83,7 @@ void Program::readInstructions(std::string strFile) {
   std::string opWord;
   std::string operand;
   char operandType;
-  std::map<std::string, int> tagMap;
+  Tag* jumpTag;
 
   while (token != NULL && !error) {
     validInstruction = false;
@@ -92,7 +95,6 @@ void Program::readInstructions(std::string strFile) {
     if (tag != "") {
       currentTag = tag;
       newTag = true;
-      tagMap.insert(std::make_pair(tag, line));
     }
     strFile = token;
     std::istringstream iss(strFile);
@@ -126,8 +128,11 @@ void Program::readInstructions(std::string strFile) {
     } else if (find(jumpOperations.begin(), jumpOperations.end(), opWord) != jumpOperations.end()) {
         opCode = std::distance(jumpOperations.begin(), std::find(jumpOperations.begin(), jumpOperations.end(), opWord));
         iss >> operand;
-        validInstruction = true;
-        newInstruction = createJumpInstruction(opCode, line, currentTag, operand, tagMap[operand]);
+        jumpTag = findTag(operand, tagArray);
+        if (jumpTag != NULL) {
+          validInstruction = true;
+        }
+        newInstruction = createJumpInstruction(opCode, line, currentTag, jumpTag);
     } else if (opWord.find("HALT") != std::string::npos) {
         validInstruction = true;
         newInstruction = new InstructionHALT(line, currentTag, "HALT");
@@ -169,17 +174,45 @@ Instruction* Program::createNormalInstruction(int opCode, int line, std::string 
   }
 }
 
-Instruction* Program::createJumpInstruction(int opCode, int line, std::string tag, std::string operand_, int tagStartLine) {
+Instruction* Program::createJumpInstruction(int opCode, int line, std::string tag, Tag* jumpTag) {
   switch(opCode) {
     case 0:
-      return new InstructionJUMP(line, tag, "JUMP", operand_, tagStartLine);
+      return new InstructionJUMP(line, tag, "JUMP", jumpTag);
     case 1:
-      return new InstructionJGTZ(line, tag, "JGTZ", operand_, tagStartLine);
+      return new InstructionJGTZ(line, tag, "JGTZ", jumpTag);
     case 2:
-      return new InstructionJZERO(line, tag, "JZERO", operand_, tagStartLine);
+      return new InstructionJZERO(line, tag, "JZERO", jumpTag);
   }
 }
 
-Instruction* Program::runInstructions() {
-  ;
+Instruction* Program::getInstruction(int pc) {
+  return instructions_[pc];
+}
+
+std::vector<Tag*> Program::getAllTags(std::string strFile) {
+  std::vector<Tag*> vector;
+  int line = 1;
+  char* input = (char*) strFile.c_str();
+  char* token = std::strtok(input, "\n");
+  std::string strLine;
+  std::string tag;
+  while (token != NULL) {
+    strLine = token;
+    tag = getTag(strLine);
+    if (tag != "") {
+      vector.push_back(new Tag(line, tag));
+    }
+    line++;
+    token = std::strtok(NULL, "\n");
+  }
+  return vector;
+}
+
+Tag* Program::findTag(std::string id, std::vector<Tag*> vector) {
+  for (int i = 0; i < vector.size(); i++) {
+    if (vector[i]->getId() == id) {
+      return vector[i];
+    }
+  }
+  return NULL;
 }

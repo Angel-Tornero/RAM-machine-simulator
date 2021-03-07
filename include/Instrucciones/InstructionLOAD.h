@@ -8,5 +8,5 @@ class InstructionLOAD: public Instruction {
     InstructionLOAD(int line, std::string tag, std::string operation, char opType, int operand);
 
     void show();
-    void execute(RAMachine ram);
+    int execute(RAMachine& ram);
 };

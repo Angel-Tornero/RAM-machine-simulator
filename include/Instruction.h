@@ -14,7 +14,8 @@ class Instruction {
   
   public:
     Instruction() {}
-    virtual void execute(RAMachine ram)=0;
+    virtual int execute(RAMachine& ram)=0;
+    void printOperation();
 
     virtual void show()=0;
 };

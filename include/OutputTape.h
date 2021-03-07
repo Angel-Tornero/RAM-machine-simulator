@@ -6,5 +6,6 @@ class OutputTape: public Tape {
     OutputTape(std::string fileName);
 
     void write(int value);
+    void show();
 
 };

@@ -3,9 +3,10 @@
 class InstructionSTORE: public Instruction {
   private:
     char opType_;
-    std::string operand_;
+    int operand_;
   public:
-    InstructionSTORE(int line, std::string tag, std::string operation, char opType, std::string operand);
+    InstructionSTORE(int line, std::string tag, std::string operation, char opType, int operand);
 
     void show();
+    int execute(RAMachine& ram);
 };

@@ -19,7 +19,7 @@ class RAMachine {
     bool halt_;
   
   public:
-    RAMachine(std::string program, std::string inputTape, std::string outputTape);
+    RAMachine(Program*, InputTape*, OutputTape*);
     void runProgram();
     void increasePC();
     int readFromInputTape();
@@ -27,6 +27,10 @@ class RAMachine {
     void writeMemory(int pos, int value);
     int readMemory(int pos);
     void jump(int line);
+    void halt();
+    void showOutputTape();
+    int getPc();
+    void showMemory();
 };
 
 #endif

@@ -1,21 +1,29 @@
 #include "../include/RAMachine.h"
 
-RAMachine::RAMachine(std::string program, std::string inputTape, std::string outputTape) {
-  program_ = new Program(program);
-  inputTape_ = new InputTape(inputTape);
-  outputTape_ = new OutputTape(outputTape);
+RAMachine::RAMachine(Program* program, InputTape* inputTape, OutputTape* outputTape) {
+  program_ = program;
+  inputTape_ = inputTape;
+  outputTape_ = outputTape;
   memory_ = new Memory;
   pc_ = 0;
+
+  program_->showInstructions();
+  inputTape->show();
 }
 
 void RAMachine::runProgram() {
-  while(!halt_) {
-    program_->getInstruction(pc_)->execute(*this);
+  int n = 10;
+  while(n != -1) {
+    program_->getInstruction(pc_) -> show();
+    pc_ = program_->getInstruction(pc_)->execute(*this);
+    showMemory();
+    n--;
   }
 }
 
 void RAMachine::increasePC() {
   pc_++;
+  std::cout << pc_ << '\n';
 }
 
 int RAMachine::readFromInputTape() {
@@ -37,4 +45,20 @@ int RAMachine::readMemory(int pos) {
 
 void RAMachine::jump(int line) {
   pc_ = line;
+}
+
+void RAMachine::halt() {
+  halt_ = true;
+}
+
+void RAMachine::showOutputTape() {
+  outputTape_->show();
+}
+
+int RAMachine::getPc() {
+  return pc_;
+}
+
+void RAMachine::showMemory() {
+  memory_->show();
 }

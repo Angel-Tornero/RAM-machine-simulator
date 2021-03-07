@@ -3,9 +3,10 @@
 class InstructionMULT: public Instruction {
   private:
     char opType_;
-    std::string operand_;
+    int operand_;
   public:
-    InstructionMULT(int line, std::string tag, std::string operation, char opType, std::string operand);
+    InstructionMULT(int line, std::string tag, std::string operation, char opType, int operand);
 
     void show();
+    int execute(RAMachine& ram);
 };

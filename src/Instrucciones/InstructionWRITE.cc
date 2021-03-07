@@ -13,11 +13,16 @@ void InstructionWRITE::show() {
   std::cout << '[' << tag_ << "] at line " << line_ << " <" << operation_ << ' ' << opType_ << ' ' << operand_ << ">\n";
 }
 
-void InstructionWRITE::execute(RAMachine ram) {
+int InstructionWRITE::execute(RAMachine& ram) {
   int position;
   int value;
   switch(opType_) {
     case 'd':
+      if (operand_ == 0) {
+        std::cerr <<"Invalid instruction: ";
+        show(); 
+        exit(0);
+      }
       value = ram.readMemory(operand_);
       ram.writeOutputTape(value);
       break;
@@ -29,6 +34,8 @@ void InstructionWRITE::execute(RAMachine ram) {
     case '=':
       value = operand_;
       ram.writeOutputTape(value);
+      std::cout << value;
       break;
   }
+  return ram.getPc() + 1;
 }
