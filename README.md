@@ -7,6 +7,7 @@ introducidos mediante teclado.
 ## Ejecución
 
 • El simulador debe ejecutarse del siguiente modo:
+
 ```./ram_sim ram_program.ram input_tape.in output_tape.out debug```
 
 - ram_program.ram: fichero con el programa RAM.
@@ -17,7 +18,8 @@ características similares al siguiente figura y, permitirá ejecutar cada una
 de sus opciones, mostrando en cada paso de ejecución la instrucción
 ejecutada y el estado de la máquina.
 
-```>h
+```
+>h
 r: ver los registros
 t: traza
 e: ejecutar
@@ -26,7 +28,8 @@ i: ver cinta entrada
 o: ver cinta salida
 h: ayuda
 x: salir
->```
+>
+```
 
 El valor 0 lleva a cabo la simulación completa. Al finalizar la misma, sólo
 deberá mostrarse por consola el número total de instrucciones ejecutadas.
