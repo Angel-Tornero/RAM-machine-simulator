@@ -48,23 +48,24 @@ void RAMachine::debugMode() {
         break;
       case 't':
         if (halt_) {
-          std::cout << "Trace not available now. Program is halted.\n";
+          std::cout << "Trace NOT available now. Program is halted.\n";
           break;
         }
+        std::cout << "Running next instruction...\n";
         pc_ = program_->getInstruction(pc_)->execute(*this);
         break;
       case 'e':
         if (halt_) {
-          std::cout << "Execute not available now. Program is halted.\n";
+          std::cout << "Execute NOT available now. Program is halted.\n";
           break;
         }
+        std::cout << "Running program...\n";
         while(!halt_) {
           pc_ = program_->getInstruction(pc_)->execute(*this);
         }
         break;
       case 's':
-        program_->getInstruction(pc_)->show();
-        std::cout << '\n';
+        program_->showInstructions(pc_);
         break;
       case 'i':
         showInputTape();
@@ -76,7 +77,12 @@ void RAMachine::debugMode() {
         helpDebugMode();
         break;
       case 'x':
+        std::cout << "Leaving debugging console...\n";
         exit = true;
+        break;
+      default:
+        std::cout << "These are the valid commands:\n";
+        helpDebugMode();
         break;
     }
   }

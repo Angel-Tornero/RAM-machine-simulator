@@ -29,7 +29,7 @@ std::string fileToString(std::string fileName) {
   inFile.open(fileName);
 
   if (inFile.fail()) {
-    std::cerr << "File does not exist (inFile).\n";
+    std::cerr << "File " << fileName << " does not exist (ram program).\n";
     exit(0);
   }
   while(!inFile.eof()) {
@@ -145,9 +145,13 @@ void Program::parseInstructions(std::string strFile) {
   }
 }
 
-void Program::showInstructions() {
+void Program::showInstructions(int pc) {
   for (int i = 0; i < instructions_.size(); i++) {
+    if (pc == i) {
+      std::cout << "\e[1m";
+    }
     instructions_[i]->show();
+    std::cout << "\e[0m";
   }
 }
 

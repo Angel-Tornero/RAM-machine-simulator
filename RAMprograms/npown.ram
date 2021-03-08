@@ -1,7 +1,7 @@
             READ 1
             LOAD 1
             JGTZ positive
-            LOAD =1
+            LOAD =0
             STORE 1
             WRITE 1
             HALT

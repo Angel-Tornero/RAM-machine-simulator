@@ -16,7 +16,7 @@ void InputTape::load(std::string fileName) {
   inFile.open(fileName.c_str(), std::ios::in);
 
   if (inFile.fail()) {
-    std::cerr << "File does not exist (inFile).\n";
+    std::cerr << "File " << fileName << " does not exist (input tape).\n";
     exit(0);
   } 
 
@@ -32,7 +32,6 @@ void InputTape::show() {
   for (int i = 0; i < values_.size(); i++) {
     std::cout << 'x' << i + 1 << "= [" << values_[i] << "]" << ((index_ == i)? " *\n": "\n");
   }
-  std::cout << '\n';
 }
 
 int InputTape::readValue() {

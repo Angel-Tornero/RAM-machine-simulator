@@ -21,6 +21,6 @@ class Program {
     Instruction* getInstruction(int pc);
     std::map<std::string, Tag*> getAllTags(std::string strFile);
 
-    void showInstructions();
+    void showInstructions(int pc);
 
 };

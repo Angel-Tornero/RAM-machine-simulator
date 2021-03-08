@@ -17,5 +17,4 @@ void Memory::show() {
   for (int i = 0; i < register_.size(); i++) {
     std::cout << 'r' << i << " = [" << register_[i] << "]\n";
   }
-  std::cout << '\n';
 }
