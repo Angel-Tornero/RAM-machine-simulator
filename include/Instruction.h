@@ -16,7 +16,6 @@ class Instruction {
     Instruction() {}
     virtual int execute(RAMachine& ram)=0;
     void printOperation();
-
     virtual void show()=0;
 };
 

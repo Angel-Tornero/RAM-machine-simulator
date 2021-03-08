@@ -52,6 +52,7 @@ void RAMachine::debugMode() {
           break;
         }
         std::cout << "Running next instruction...\n";
+        program_->getInstruction(pc_)->show();
         pc_ = program_->getInstruction(pc_)->execute(*this);
         break;
       case 'e':
@@ -89,8 +90,13 @@ void RAMachine::debugMode() {
 }
 
 void RAMachine::helpDebugMode() {
-  std::cout << "r: view registers\nt: trace\ne: execute\ns: disassemble\ni: view input tape\n";
-  std::cout << "o: view output tape\nh: help\nx: exit\n";
+  std::cout << "r: view registers\n"
+               "t: trace\ne: execute\n"
+               "s: disassemble\n"
+               "i: view input tape\n"
+               "o: view output tape\n"
+               "h: help\n"
+               "x: exit\n";
 }
 
 int RAMachine::readFromInputTape() {

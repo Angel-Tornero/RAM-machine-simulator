@@ -15,7 +15,7 @@ void OutputTape::show() {
   for (int i = 0; i < values_.size(); i++) {
     std::cout << 'y' << i + 1 << "= [" << values_[i] << "]" << '\n';
   }
-  std::cout << 'y' << values_.size() << "= [] *\n";
+  std::cout << 'y' << values_.size() << " = [] *\n";
 }
 
 void OutputTape::outputTapeToFile() {
@@ -25,9 +25,9 @@ void OutputTape::outputTapeToFile() {
   outFile.open(fileName_.c_str(), std::ios::out);
 
   if (outFile.fail()) {
-    std::cerr << "File "<< fileName_ << " does not exist (output file). This is the output tape: \n";
+    std::cerr << "File "<< fileName_ << " could not be opened (output file). This is the output tape: \n";
     show();
-    exit(0);
+    return;
   }
 
   for (int i = 0; i < values_.size(); i++) {

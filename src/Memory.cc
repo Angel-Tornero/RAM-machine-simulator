@@ -9,6 +9,9 @@ void Memory::write(int pos, int value) {
 }
 
 int Memory::read(int pos) {
+  if (register_.size() <= pos) {
+    return 0;
+  }
   return register_[pos];
 }
 
