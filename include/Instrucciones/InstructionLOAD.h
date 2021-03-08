@@ -6,7 +6,8 @@ class InstructionLOAD: public Instruction {
     int operand_;
   public:
     InstructionLOAD(int line, std::string tag, std::string operation, char opType, int operand);
-
+    ~InstructionLOAD()=default;
+    
     void show();
     int execute(RAMachine& ram);
 };

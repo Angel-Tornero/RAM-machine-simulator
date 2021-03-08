@@ -12,6 +12,7 @@ class Program {
 
   public:
     Program(std::string fileName);
+    ~Program();
     void load(std::string fileName);
     friend std::string fileToString(std::string fileName);
     friend std::string getTag(std::string line);

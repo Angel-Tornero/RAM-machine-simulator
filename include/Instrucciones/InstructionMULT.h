@@ -6,6 +6,7 @@ class InstructionMULT: public Instruction {
     int operand_;
   public:
     InstructionMULT(int line, std::string tag, std::string operation, char opType, int operand);
+    ~InstructionMULT()=default;
 
     void show();
     int execute(RAMachine& ram);

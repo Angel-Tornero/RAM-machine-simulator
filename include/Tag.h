@@ -10,6 +10,7 @@ class Tag {
   
   public:
     Tag(int sl, std::string id);
+    ~Tag()=default;
     void setStartLine(int sl);
     int getStartLine();
     std::string getId();

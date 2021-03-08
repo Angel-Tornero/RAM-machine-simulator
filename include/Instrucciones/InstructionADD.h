@@ -6,6 +6,7 @@ class InstructionADD: public Instruction {
     int operand_;
   public:
     InstructionADD(int line, std::string tag, std::string operation, char opType, int operand);
+    ~InstructionADD()=default;
 
     void show();
     int execute(RAMachine& ram);

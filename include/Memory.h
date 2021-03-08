@@ -6,6 +6,7 @@ class Memory {
   
   public:
     Memory() {}
+    ~Memory()=default;
     void write(int pos, int value);
     int read(int pos);
     void show();

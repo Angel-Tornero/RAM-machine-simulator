@@ -6,6 +6,7 @@ class InstructionWRITE: public Instruction {
     int operand_;
   public:
     InstructionWRITE(int line, std::string tag, std::string operation, char opType, int operand);
+    ~InstructionWRITE()=default;
 
     void show();
     int execute(RAMachine& ram);

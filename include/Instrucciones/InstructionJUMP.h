@@ -6,6 +6,8 @@ class InstructionJUMP: public Instruction {
     Tag* jumpTag_;
   public:
     InstructionJUMP(int line, std::string tag, std::string operation, Tag* jumpTag);
+    ~InstructionJUMP()=default;
+    
     void show();
     int execute(RAMachine& ram);
 };

@@ -10,6 +10,13 @@ RAMachine::RAMachine(Program* program, InputTape* inputTape, OutputTape* outputT
   debug_ = debug;
 }
 
+RAMachine::~RAMachine() {
+  delete program_;
+  delete inputTape_;
+  delete outputTape_;
+  delete memory_;
+}
+
 void RAMachine::runProgram() {
   if (debug_) {
     debugMode();

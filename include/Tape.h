@@ -12,6 +12,7 @@ class Tape {
     int index_;
   
   public:
+    ~Tape()=default;
 
 };
 

@@ -22,6 +22,15 @@ Program::Program(std::string fileName) {
   load(fileName);
 }
 
+Program::~Program() {
+  for (int i = 0; i < instructions_.size(); i++) {
+    delete instructions_[i];
+  }
+  for (int i = 0; i < tags_.size(); i++) {
+    delete tags_[i];
+  }
+}
+
 std::string fileToString(std::string fileName) {
   std::ifstream inFile;
   std::string aux;
@@ -144,10 +153,10 @@ void Program::parseInstructions(std::string strFile) {
 void Program::showInstructions(int pc) {
   for (int i = 0; i < instructions_.size(); i++) {
     if (pc == i) {
-      std::cout << "\e[1m";
+      std::cout << "\e[1m\u001b[32;1m";
     }
     instructions_[i]->show();
-    std::cout << "\e[0m";
+    std::cout << "\e[0m\u001b[0m";
   }
 }
 
@@ -195,11 +204,14 @@ std::map<std::string, Tag*> Program::getAllTags(std::string strFile) {
   char* token = std::strtok(input, "\n");
   std::string strLine;
   std::string tag;
+  Tag* newTag;
   while (token != NULL) {
     strLine = token;
     tag = getTag(strLine);
     if (tag != "") {
-      map.insert(make_pair(tag, new Tag(line, tag)));
+      newTag = new Tag(line, tag);
+      map.insert(make_pair(tag, newTag));
+      tags_.push_back(newTag);
     }
     line++;
     token = std::strtok(NULL, "\n");

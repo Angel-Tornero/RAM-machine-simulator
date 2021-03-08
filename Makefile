@@ -1,5 +1,16 @@
-ram_sim: src/main.cc src/RAMachine.cc src/Program.cc src/Tag.cc src/Memory.cc src/OutputTape.cc src/InputTape.cc src/Instruction.cc src/Instrucciones/InstructionADD.cc src/Instrucciones/InstructionDIV.cc src/Instrucciones/InstructionHALT.cc src/Instrucciones/InstructionJGTZ.cc src/Instrucciones/InstructionJUMP.cc src/Instrucciones/InstructionJZERO.cc src/Instrucciones/InstructionLOAD.cc src/Instrucciones/InstructionMULT.cc src/Instrucciones/InstructionREAD.cc src/Instrucciones/InstructionSTORE.cc src/Instrucciones/InstructionSUB.cc src/Instrucciones/InstructionWRITE.cc
-	g++ -g src/main.cc src/RAMachine.cc src/Program.cc src/Tag.cc src/Memory.cc src/OutputTape.cc src/InputTape.cc src/Instruction.cc src/Instrucciones/InstructionADD.cc src/Instrucciones/InstructionDIV.cc src/Instrucciones/InstructionHALT.cc src/Instrucciones/InstructionJGTZ.cc src/Instrucciones/InstructionJUMP.cc src/Instrucciones/InstructionJZERO.cc src/Instrucciones/InstructionLOAD.cc src/Instrucciones/InstructionMULT.cc src/Instrucciones/InstructionREAD.cc src/Instrucciones/InstructionSTORE.cc src/Instrucciones/InstructionSUB.cc src/Instrucciones/InstructionWRITE.cc -o ram_sim
+CXX = g++
+#CXXFLAGS = -Wall -Wextra -pedantic -std=c++17 -g 
+LDFLAGS =  -fsanitize=address
+#-fsanitize=address
+#-Werror
+SRC= $(wildcard src/*.cc) $(wildcard src/Instrucciones/*.cc)
+OBJ = $(SRC:.cc=.o)
+EXEC = bin/ram_sim
+
+all: $(EXEC)
+
+$(EXEC): $(OBJ)
+	$(CXX) $(LDFLAGS) -o $@ $(OBJ) $(LBLIBS)
 
 clean:
-	rm -f $(ram_sim)
+	rm -rf $(OBJ) $(EXEC)

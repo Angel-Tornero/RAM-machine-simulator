@@ -21,6 +21,7 @@ class RAMachine {
   
   public:
     RAMachine(Program*, InputTape*, OutputTape*, bool);
+    ~RAMachine();
     void runProgram();
     void normalMode();
     void debugMode();
