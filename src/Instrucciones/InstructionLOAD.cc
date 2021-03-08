@@ -15,21 +15,22 @@ void InstructionLOAD::show() {
 
 int InstructionLOAD::execute(RAMachine& ram) {
   int value;
-  int position = 0;
+  int position;
   switch(opType_) {
     case 'd':
       value = ram.readMemory(operand_);
-      ram.writeMemory(position, value);
+      ram.writeMemory(0, value);
       break;
     case '*':
       position = ram.readMemory(operand_);
       value = ram.readMemory(position);
-      ram.writeMemory(position, value);
+      ram.writeMemory(0, value);
       break;
     case '=':
       value = operand_;
-      ram.writeMemory(position, value);
+      ram.writeMemory(0, value);
       break;
+      
   }
   return ram.getPc() + 1;
 }

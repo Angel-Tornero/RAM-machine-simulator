@@ -19,15 +19,36 @@ int InstructionDIV::execute(RAMachine& ram) {
   switch(opType_) {
     case 'd':
       value = ram.readMemory(operand_);
+      if (value == 0) {
+        std::cerr << "[!] Invalid operation on instruction: ";
+        show();
+        std::cerr << "Divisor cannot be 0. \n";
+        ram.halt();
+        break;
+      }
       ram.writeMemory(0, ram.readMemory(0) / value);
       break;
     case '*':
       position = ram.readMemory(operand_);
       value = ram.readMemory(position);
+      if (value == 0) {
+        std::cerr << "[!] Invalid operation on instruction: ";
+        show();
+        std::cerr << "Divisor cannot be 0. \n";
+        ram.halt();
+        break;
+      }
       ram.writeMemory(0, ram.readMemory(0) / value);
       break;
     case '=':
       value = operand_;
+      if (value == 0) {
+        std::cerr << "[!] Invalid operation on instruction: ";
+        show();
+        std::cerr << "Divisor cannot be 0. \n";
+        ram.halt();
+        break;
+      }
       ram.writeMemory(0, ram.readMemory(0) / value);
       break;
   }

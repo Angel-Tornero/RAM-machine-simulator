@@ -28,9 +28,11 @@ void InputTape::load(std::string fileName) {
 }
 
 void InputTape::show() {
+  std::cout << "Input tape:\n";
   for (int i = 0; i < values_.size(); i++) {
-    std::cout << values_[i]<< '\n';
+    std::cout << 'x' << i + 1 << "= [" << values_[i] << "]" << ((index_ == i)? " *\n": "\n");
   }
+  std::cout << '\n';
 }
 
 int InputTape::readValue() {

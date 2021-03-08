@@ -46,7 +46,7 @@ std::string fileToString(std::string fileName) {
 void Program::load(std::string fileName) {
   fileName_ = fileName;
   std::string strFile = fileToString(fileName);
-  readInstructions(strFile);
+  parseInstructions(strFile);
 }
 
 
@@ -62,15 +62,12 @@ std::string getTag(std::string line) {
   return tag;
 }
 
-void Program::readInstructions(std::string strFile) {
-  
+void Program::parseInstructions(std::string strFile) {
   std::transform(strFile.begin(), strFile.end(), strFile.begin(), ::toupper);
   std::vector<std::string> normalOperations = {"LOAD", "STORE", "ADD", "SUB", "MULT", "DIV", "READ", "WRITE"};
   std::vector<std::string> jumpOperations = {"JUMP", "JGTZ", "JZERO"};
   std::string copyStrFile = strFile;
-  std::vector<Tag*> tagArray = getAllTags(copyStrFile);
-  bool error = false;
-  bool validInstruction;
+  std::map<std::string, Tag*> map = getAllTags(copyStrFile);
   bool newTag;
   int line = 1;
   int opCode;
@@ -83,10 +80,8 @@ void Program::readInstructions(std::string strFile) {
   std::string opWord;
   std::string operand;
   char operandType;
-  Tag* jumpTag;
 
-  while (token != NULL && !error) {
-    validInstruction = false;
+  while (token != NULL) {
     newTag = false;
     opWord = "";
     strLine = token;
@@ -113,35 +108,39 @@ void Program::readInstructions(std::string strFile) {
       if (operand[0] == '*' || operand[0] == '=') {
         operandType = operand[0];
         operand.erase(operand.begin());
-        if (std::regex_match(operand, std::regex("[0-9]"))) {
-          validInstruction = true;
+        if (std::regex_match(operand, std::regex("([0-9])+"))) {
           newInstruction = createNormalInstruction(opCode, line, currentTag, operandType, operand);
         } else {
-          std::cerr << "Invalid operand.\n";
+          std::cerr << "[!] An error occurred in " << fileName_ << " file:\n";
+          std::cerr << "Invalid operand <" << operand<< "> on line " << line << ". Must be an integer.\n";
           exit(-1);
         }
-      } else if (std::regex_match(operand, std::regex("[0-9]"))) {
+      } else if (std::regex_match(operand, std::regex("([0-9])+"))) {
         operandType = 'd';
-        validInstruction = true;
         newInstruction = createNormalInstruction(opCode, line, currentTag, operandType, operand);
-      }
+      } else {
+          std::cerr << "[!] An error occurred in " << fileName_ << " file:\n";
+          std::cerr << "Invalid operand <" << operand<< "> on line " << line << ". Must be an integer.\n";
+          exit(-1);
+        }
     } else if (find(jumpOperations.begin(), jumpOperations.end(), opWord) != jumpOperations.end()) {
         opCode = std::distance(jumpOperations.begin(), std::find(jumpOperations.begin(), jumpOperations.end(), opWord));
         iss >> operand;
-        jumpTag = findTag(operand, tagArray);
-        if (jumpTag != NULL) {
-          validInstruction = true;
+        if (map[operand] == NULL) {
+          std::cerr << "[!] An error occurred in file " << fileName_ << " file:\n";
+          std::cerr << "Invalid jump on line " << line << ". Tag [" << operand << "] does not exist. \n";
+          exit(-1);
         }
-        newInstruction = createJumpInstruction(opCode, line, currentTag, jumpTag);
+        newInstruction = createJumpInstruction(opCode, line, currentTag, map[operand]);
     } else if (opWord.find("HALT") != std::string::npos) {
-        validInstruction = true;
         newInstruction = new InstructionHALT(line, currentTag, "HALT");
+    } else {
+        std::cerr << "[!] An error occurred in " << fileName_ << " file:\n";
+        std::cerr << "Not recognized instruction on line " << line << ". Instruction <" << opWord << "> does not exist. \n";
+          exit(-1);
     }
-
-    if (validInstruction) {
-      line++;
-      instructions_.push_back(newInstruction);
-    }
+    line++;
+    instructions_.push_back(newInstruction);
     token = std::strtok(NULL, "\n");
   }
 }
@@ -189,8 +188,8 @@ Instruction* Program::getInstruction(int pc) {
   return instructions_[pc];
 }
 
-std::vector<Tag*> Program::getAllTags(std::string strFile) {
-  std::vector<Tag*> vector;
+std::map<std::string, Tag*> Program::getAllTags(std::string strFile) {
+  std::map<std::string, Tag*> map;
   int line = 1;
   char* input = (char*) strFile.c_str();
   char* token = std::strtok(input, "\n");
@@ -200,19 +199,10 @@ std::vector<Tag*> Program::getAllTags(std::string strFile) {
     strLine = token;
     tag = getTag(strLine);
     if (tag != "") {
-      vector.push_back(new Tag(line, tag));
+      map.insert(make_pair(tag, new Tag(line, tag)));
     }
     line++;
     token = std::strtok(NULL, "\n");
   }
-  return vector;
-}
-
-Tag* Program::findTag(std::string id, std::vector<Tag*> vector) {
-  for (int i = 0; i < vector.size(); i++) {
-    if (vector[i]->getId() == id) {
-      return vector[i];
-    }
-  }
-  return NULL;
+  return map;
 }

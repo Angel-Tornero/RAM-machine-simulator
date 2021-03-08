@@ -19,5 +19,4 @@ int InstructionJGTZ::execute(RAMachine& ram) {
   } else {
     return ram.getPc() + 1;
   }
-  
 }

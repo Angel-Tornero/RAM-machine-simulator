@@ -1,14 +1,13 @@
 #include <map>
 #include <string>
 #include <iostream>
+#include <regex>
 
 int main() {
-  std::map<int, std::string> map;
+  std::string hola = "11";
 
-  map.insert(std::make_pair(1, "hola"));
-  map.insert(std::make_pair(2, "buenas"));
-  map.insert(std::make_pair(3, "bolas XD"));
-
-  std::cout << map[3];
+  if (std::regex_match(hola, std::regex("([0-9])+"))) {
+    std::cout << "faletin";
+  }
 
 }

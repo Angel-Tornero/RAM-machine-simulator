@@ -13,5 +13,5 @@ void InstructionHALT::show() {
 
 int InstructionHALT::execute(RAMachine& ram) {
   ram.halt();
-  return -1;
+  return ram.getPc();
 }

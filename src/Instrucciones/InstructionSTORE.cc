@@ -26,9 +26,9 @@ int InstructionSTORE::execute(RAMachine& ram) {
       ram.writeMemory(position, ram.readMemory(0));
       break;
     case '=':
-      std::cerr <<"Invalid instruction: ";
-      show(); 
-      exit(0);
+      std::cerr << "[!] Invalid option " << opType_ << " on instruction ";
+      show();
+      ram.halt();
   }
   return ram.getPc() + 1;
 }

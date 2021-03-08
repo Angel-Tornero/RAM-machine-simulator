@@ -17,20 +17,25 @@ class RAMachine {
     Memory* memory_;
     int pc_;
     bool halt_;
+    bool debug_;
   
   public:
-    RAMachine(Program*, InputTape*, OutputTape*);
+    RAMachine(Program*, InputTape*, OutputTape*, bool);
     void runProgram();
-    void increasePC();
+    void normalMode();
+    void debugMode();
+    void helpDebugMode();
+
     int readFromInputTape();
-    void writeOutputTape(int value);
+    void writeOnOutputTape(int value);
     void writeMemory(int pos, int value);
     int readMemory(int pos);
-    void jump(int line);
     void halt();
     void showOutputTape();
+    void showInputTape();
     int getPc();
     void showMemory();
+    void printOutputTape();
 };
 
 #endif

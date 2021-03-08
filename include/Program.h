@@ -15,12 +15,11 @@ class Program {
     void load(std::string fileName);
     friend std::string fileToString(std::string fileName);
     friend std::string getTag(std::string line);
-    void readInstructions(std::string strFile);
+    void parseInstructions(std::string strFile);
     Instruction* createNormalInstruction(int opCode, int line, std::string tag, char opType, std::string operand);
     Instruction* createJumpInstruction(int opCode, int line, std::string tag, Tag* jumpTag);
     Instruction* getInstruction(int pc);
-    std::vector<Tag*> getAllTags(std::string strFile);
-    Tag* findTag(std::string id, std::vector<Tag*> vector);
+    std::map<std::string, Tag*> getAllTags(std::string strFile);
 
     void showInstructions();
 

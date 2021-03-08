@@ -25,6 +25,11 @@ int InstructionREAD::execute(RAMachine& ram) {
       position = ram.readMemory(readValue);
       ram.writeMemory(position, readValue);
       break;
+    case '=':
+      std::cerr << "[!] Invalid option " << opType_ << " on instruction ";
+      show();
+      ram.halt();
+      break;
   }
   return ram.getPc() + 1;
 }

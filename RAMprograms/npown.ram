@@ -1,0 +1,22 @@
+            READ 1
+            LOAD 1
+            JGTZ positive
+            LOAD =1
+            STORE 1
+            WRITE 1
+            HALT
+positive:   SUB =1
+            STORE 2
+            LOAD 1
+            STORE 3
+bucle:      LOAD 3
+            MULT 1
+            STORE 3
+            LOAD 2
+            SUB =1
+            JZERO fin
+            STORE 2
+            JUMP bucle
+fin:        LOAD 3
+            WRITE 3
+            HALT

@@ -13,9 +13,9 @@ int Memory::read(int pos) {
 }
 
 void Memory::show() {
-  std::cout << "[ ";
+  std::cout << "Memory:\n";
   for (int i = 0; i < register_.size(); i++) {
-    std::cout << register_[i] << ' ';
+    std::cout << 'r' << i << " = [" << register_[i] << "]\n";
   }
-  std::cout << "]\n";
+  std::cout << '\n';
 }

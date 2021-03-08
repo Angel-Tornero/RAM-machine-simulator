@@ -19,21 +19,22 @@ int InstructionWRITE::execute(RAMachine& ram) {
   switch(opType_) {
     case 'd':
       if (operand_ == 0) {
-        std::cerr <<"Invalid instruction: ";
+        std::cerr <<"[!] Invalid operand on instruction: ";
         show(); 
-        exit(0);
+        ram.halt();
+        break;
       }
       value = ram.readMemory(operand_);
-      ram.writeOutputTape(value);
+      ram.writeOnOutputTape(value);
       break;
     case '*':
       position = ram.readMemory(operand_);
       value = ram.readMemory(position);
-      ram.writeOutputTape(value);
+      ram.writeOnOutputTape(value);
       break;
     case '=':
       value = operand_;
-      ram.writeOutputTape(value);
+      ram.writeOnOutputTape(value);
       std::cout << value;
       break;
   }

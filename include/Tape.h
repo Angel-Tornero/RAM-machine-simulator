@@ -9,7 +9,7 @@ class Tape {
   protected:
     std::vector<int> values_;
     std::string fileName_;
-    unsigned index_;
+    int index_;
   
   public:
 

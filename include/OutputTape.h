@@ -7,5 +7,6 @@ class OutputTape: public Tape {
 
     void write(int value);
     void show();
+    void outputTapeToFile();
 
 };
