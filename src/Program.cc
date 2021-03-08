@@ -111,33 +111,29 @@ void Program::parseInstructions(std::string strFile) {
         if (std::regex_match(operand, std::regex("([0-9])+"))) {
           newInstruction = createNormalInstruction(opCode, line, currentTag, operandType, operand);
         } else {
-          std::cerr << "[!] An error occurred in " << fileName_ << " file:\n";
-          std::cerr << "Invalid operand <" << operand<< "> on line " << line << ". Must be an integer.\n";
-          exit(-1);
+          throw "[!] An error occurred in " + fileName_ + " file:\n" + "Invalid operand < " +
+          operand + ". Must be an integer.\n";
         }
       } else if (std::regex_match(operand, std::regex("([0-9])+"))) {
         operandType = 'd';
         newInstruction = createNormalInstruction(opCode, line, currentTag, operandType, operand);
       } else {
-          std::cerr << "[!] An error occurred in " << fileName_ << " file:\n";
-          std::cerr << "Invalid operand <" << operand<< "> on line " << line << ". Must be an integer.\n";
-          exit(-1);
+          throw "[!] An error occurred in " + fileName_ + " file:\n" + "Invalid operand < " +
+          operand + " >. Must be an integer.\n";
         }
     } else if (find(jumpOperations.begin(), jumpOperations.end(), opWord) != jumpOperations.end()) {
         opCode = std::distance(jumpOperations.begin(), std::find(jumpOperations.begin(), jumpOperations.end(), opWord));
         iss >> operand;
         if (map[operand] == NULL) {
-          std::cerr << "[!] An error occurred in file " << fileName_ << " file:\n";
-          std::cerr << "Invalid jump on line " << line << ". Tag [" << operand << "] does not exist. \n";
-          exit(-1);
+          throw "[!] An error occurred in file " + fileName_ + " file:\n" + "Invalid jump on line " + 
+          std::to_string(line) + ". Tag [" + operand + "] does not exist. \n";
         }
         newInstruction = createJumpInstruction(opCode, line, currentTag, map[operand]);
     } else if (opWord.find("HALT") != std::string::npos) {
         newInstruction = new InstructionHALT(line, currentTag, "HALT");
     } else {
-        std::cerr << "[!] An error occurred in " << fileName_ << " file:\n";
-        std::cerr << "Not recognized instruction on line " << line << ". Instruction <" << opWord << "> does not exist. \n";
-          exit(-1);
+          throw "[!] An error occurred in " + fileName_ + " file:\n Not recognized instruction on line " + 
+          std::to_string(line) + ". Instruction <" + opWord + "> does not exist. \n";
     }
     line++;
     instructions_.push_back(newInstruction);

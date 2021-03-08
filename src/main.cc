@@ -18,9 +18,15 @@ int main(int argv, char* argc[]) {
     std::cout << "Last argument must be 0 or 1.\n";
     return 0;
   }
+  std::exception error;
 
-  RAMachine ramMachine(new Program(ramProgram), new InputTape(inputTape), new OutputTape(outputTape), debug);
-  ramMachine.runProgram();
+  try {
+    RAMachine ramMachine(new Program(ramProgram), new InputTape(inputTape), new OutputTape(outputTape), debug);
+    ramMachine.runProgram();
+  } catch (std::string errorType) {
+      std::cerr << errorType;
+      return -1;
+  }
 
   return 0;
 }
